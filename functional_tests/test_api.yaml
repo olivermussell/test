@@ -1,0 +1,58 @@
+---
+marks:
+  - usefixtures:
+      - setup_specific_fixture
+      - api_key
+
+test_name: Check user login works
+
+stages:
+  - name: Get user status
+    request:
+      url: "{api_url}?url_param=4&url_param_user={username}"
+      method: GET
+      headers:
+        content-type: application/json
+        Authorization: "{api_key}"
+    response:
+      status_code: 200
+      headers:
+        content-type: application/json
+      body:
+        $ext:
+          function: tavern.testutils.helpers:validate_pykwalify
+          extra_kwargs:
+            schema:
+              type: seq
+              required: true
+              sequence:
+                - type: map
+                  required: true
+                  mapping:
+                    uid:
+                      type: int
+                      required: true
+                    title:
+                      type: str
+                      required: true
+                    created:
+                      type: timestamp
+                      required: true
+                    deleted:
+                      type: bool
+                      required: true
+                    permissions:
+                      type: seq
+                      sequence:
+                        - type: map
+                          required: false
+                          mapping:
+                            id:
+                              type: int
+                              required: true
+                            staff:
+                              type: bool
+                              required: true
+                            superuser:
+                              type: str
+                              required: true

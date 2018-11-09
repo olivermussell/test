@@ -1,0 +1,9 @@
+---
+
+name: Vagrant specific vars
+description: Vagrant specific vars
+
+variables:
+  api_url: https://vagrant.primarysite.local/api/v1
+  api_key: 'aaaaaaaaaaaaa'
+  username: 'user1'
